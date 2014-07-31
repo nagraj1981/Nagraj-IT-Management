@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Data.SqlClient;
+
 
 namespace IT_Asset_Management_Project
 {
@@ -64,7 +66,7 @@ namespace IT_Asset_Management_Project
             Scope.Connect();
             ObjectQuery Query = new ObjectQuery("SELECT * FROM SoftwareLicensingProduct Where PartialProductKey <> null AND LicenseIsAddon=False");
             ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Scope, Query);
-            Int16 i = 0;
+          
             foreach (ManagementObject WmiObject in Searcher.Get())
             {
                 if (WmiObject["LicenseStatus"].ToString() == "1")
@@ -119,6 +121,7 @@ namespace IT_Asset_Management_Project
                 comboBox1.Items.Add(queryObj["Model"].ToString());
 
             }
+            comboBox1.SelectedIndex = 0;
             // Network Adapters
             searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapter");
             bool IsPhysical;
@@ -152,6 +155,8 @@ namespace IT_Asset_Management_Project
 
         private void AdminForm_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'db_ITAssetsDataSet.tbl_Faculty' table. You can move, or remove it, as needed.
+            this.tbl_FacultyTableAdapter.Fill(this.db_ITAssetsDataSet.tbl_Faculty);
 
         }
 
@@ -221,20 +226,14 @@ namespace IT_Asset_Management_Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CurrentConfig();
+            
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
-                MessageBox.Show("For New Entry  Into Database Pl Specify Unique ID");
-        }
+       
 
         private void button3_Click(object sender, EventArgs e)
         {
-            AddRemoveUserAdmin objAddRemove = new AddRemoveUserAdmin();
-            objAddRemove.ShowDialog();
-
+        
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -250,6 +249,107 @@ namespace IT_Asset_Management_Project
         private void label45_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void getCurrentConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrentConfig();
+        }
+
+        private void addRemoveUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddRemoveUserAdmin objAddRemove = new AddRemoveUserAdmin();
+            objAddRemove.ShowDialog();
+
+        }
+
+        private void storeNewInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewMAchineData objnewdata = new NewMAchineData();
+            objnewdata.ShowDialog();
+        }
+
+        private void label41_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox7_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            SqlConnection objcon = new SqlConnection("Data Source=DIVYA-PC;Initial Catalog=db_ITAssets;Persist Security Info=True;User ID=sa;password=viperx");
+
+            SqlCommand objCmd = new SqlCommand("Select dept_name from tbl_Department where faculty_id=@faculty_id");
+            objCmd.Parameters.Add("@faculty_id", SqlDbType.Int).Value = (comboBox3.SelectedIndex) + 1;
+            objCmd.Connection = objcon;
+            objCmd.CommandType = CommandType.Text;
+
+
+            objCmd.Connection = objcon;
+            SqlDataReader objReader;
+            comboBox2.Items.Clear();
+            try
+            {
+                objcon.Open();
+                MessageBox.Show(objcon.State.ToString());
+
+                objReader = objCmd.ExecuteReader();
+
+                //      if (objReader.Read())
+                //     {
+                while (objReader.Read())
+                {
+                    comboBox2.Items.Add(objReader[0].ToString());
+                }
+                //      }
+                objReader.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (objcon.State == ConnectionState.Open)
+                    objcon.Close();
+
+
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void groupBox12_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            CurrentConfig();
         }
 
                 

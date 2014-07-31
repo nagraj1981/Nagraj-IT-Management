@@ -46,6 +46,9 @@ namespace IT_Asset_Management_Project
             try
             {
                 objcon.Open();
+               // add check for Open Connection
+                
+                MessageBox.Show(objcon.State.ToString());
                 objCmd.ExecuteNonQuery();
 
                 objCmd.Dispose();
@@ -91,12 +94,13 @@ namespace IT_Asset_Management_Project
                     {
                         MessageBox.Show("User ALready Exists");
                     }
-                    else
-                    {
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Creating User");
+                    writetodatabase(comboBox1.Text, textBox1.Text, listBox1.SelectedIndex);
 
-                        writetodatabase(comboBox1.Text, textBox1.Text, listBox1.SelectedIndex);
-
-                    }
                 }
 
                 objReader.Close();
@@ -114,6 +118,36 @@ namespace IT_Asset_Management_Project
 
             }
     
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox1.Text==textBox2.Text)
+            {
+           
+                label4.Text = "Passwords Match";
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
 
         }
     }

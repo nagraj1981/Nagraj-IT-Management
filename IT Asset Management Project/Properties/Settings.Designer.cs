@@ -33,5 +33,16 @@ namespace IT_Asset_Management_Project.Properties {
                 return ((string)(this["UserDBConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DIVYA-PC;Initial Catalog=db_ITAssets;Persist Security Info=True;User " +
+            "ID=sa;Password=viperx")]
+        public string db_ITAssetsConnectionString {
+            get {
+                return ((string)(this["db_ITAssetsConnectionString"]));
+            }
+        }
     }
 }

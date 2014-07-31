@@ -61,6 +61,23 @@
     <Compile Include="AddRemoveUserAdmin.Designer.cs">
       <DependentUpon>AddRemoveUserAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="db_ITAssetsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_ITAssetsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="NewMAchineData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewMAchineData.Designer.cs">
+      <DependentUpon>NewMAchineData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PCVASSoftwareSelectionMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PCVASSoftwareSelectionMenu.Designer.cs">
+      <DependentUpon>PCVASSoftwareSelectionMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelectDept.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,11 +104,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserDBDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="UserDBDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserDBDataSet1.xsd</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AddRemoveUserAdmin.resx">
       <DependentUpon>AddRemoveUserAdmin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewMAchineData.resx">
+      <DependentUpon>NewMAchineData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PCVASSoftwareSelectionMenu.resx">
+      <DependentUpon>PCVASSoftwareSelectionMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginPage.resx">
       <DependentUpon>LoginPage.cs</DependentUpon>
@@ -111,6 +139,17 @@
     <EmbeddedResource Include="SelectDept.resx">
       <DependentUpon>SelectDept.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="db_ITAssetsDataSet.xsc">
+      <DependentUpon>db_ITAssetsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="db_ITAssetsDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>db_ITAssetsDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="db_ITAssetsDataSet.xss">
+      <DependentUpon>db_ITAssetsDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -131,9 +170,24 @@
     <None Include="UserDBDataSet.xss">
       <DependentUpon>UserDBDataSet.xsd</DependentUpon>
     </None>
+    <None Include="UserDBDataSet1.xsc">
+      <DependentUpon>UserDBDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="UserDBDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>UserDBDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UserDBDataSet1.xss">
+      <DependentUpon>UserDBDataSet1.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\Image1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

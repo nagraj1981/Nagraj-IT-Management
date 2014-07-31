@@ -47,9 +47,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(10, 11);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(226, 142);
+            this.pictureBox1.Size = new System.Drawing.Size(154, 142);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -57,7 +57,7 @@
             // 
             // txtUserID
             // 
-            this.txtUserID.Location = new System.Drawing.Point(318, 14);
+            this.txtUserID.Location = new System.Drawing.Point(231, 12);
             this.txtUserID.Name = "txtUserID";
             this.txtUserID.Size = new System.Drawing.Size(120, 20);
             this.txtUserID.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(318, 50);
+            this.txtPassword.Location = new System.Drawing.Point(419, 9);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(120, 20);
@@ -75,24 +75,25 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(242, 21);
+            this.label1.Location = new System.Drawing.Point(172, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
+            this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "USERNAME";
+            this.label1.Text = "Username";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(242, 57);
+            this.label2.Location = new System.Drawing.Point(360, 12);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "PASSWORD";
+            this.label2.Text = "Password";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(318, 76);
+            this.button1.Location = new System.Drawing.Point(282, 67);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(69, 21);
             this.button1.TabIndex = 5;
@@ -115,7 +116,7 @@
             // 
             this.label4.Font = new System.Drawing.Font("Broadway", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.MediumBlue;
-            this.label4.Location = new System.Drawing.Point(41, 171);
+            this.label4.Location = new System.Drawing.Point(169, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(385, 62);
             this.label4.TabIndex = 9;
@@ -127,7 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 238);
+            this.ClientSize = new System.Drawing.Size(572, 170);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);

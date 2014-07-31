@@ -129,5 +129,10 @@ namespace IT_Asset_Management_Project
         {
 
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
