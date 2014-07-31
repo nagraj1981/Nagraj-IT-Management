@@ -124,5 +124,10 @@ namespace IT_Asset_Management_Project
         {
 
         }
+
+        private void txtPassword_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
     }
 }
