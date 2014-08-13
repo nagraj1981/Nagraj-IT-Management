@@ -154,6 +154,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label83 = new System.Windows.Forms.Label();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label85 = new System.Windows.Forms.Label();
+            this.label86 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -794,7 +798,7 @@
             this.backToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(849, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(948, 24);
             this.menuStrip1.TabIndex = 31;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1486,20 +1490,24 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(849, 653);
+            this.tabControl1.Size = new System.Drawing.Size(948, 653);
             this.tabControl1.TabIndex = 42;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.label86);
+            this.tabPage1.Controls.Add(this.label85);
+            this.tabPage1.Controls.Add(this.label84);
+            this.tabPage1.Controls.Add(this.label83);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(841, 627);
+            this.tabPage1.Size = new System.Drawing.Size(940, 627);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Current Config";
+            this.tabPage1.Text = "MAC Address";
             // 
             // button2
             // 
@@ -1533,12 +1541,50 @@
             this.tabPage2.Text = "Stored Config";
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Location = new System.Drawing.Point(635, 89);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(125, 13);
+            this.label83.TabIndex = 2;
+            this.label83.Text = "Active Network Interface";
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Location = new System.Drawing.Point(635, 115);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(71, 13);
+            this.label84.TabIndex = 3;
+            this.label84.Text = "MAC Address";
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Location = new System.Drawing.Point(635, 215);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(125, 13);
+            this.label85.TabIndex = 4;
+            this.label85.Text = "Active Network Interface";
+            this.label85.Click += new System.EventHandler(this.label85_Click);
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Location = new System.Drawing.Point(635, 178);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(125, 13);
+            this.label86.TabIndex = 5;
+            this.label86.Text = "Active Network Interface";
+            this.label86.Click += new System.EventHandler(this.label86_Click);
+            // 
             // AdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Blue;
-            this.ClientSize = new System.Drawing.Size(849, 677);
+            this.ClientSize = new System.Drawing.Size(948, 677);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1574,6 +1620,7 @@
             this.groupBox12.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
@@ -1708,5 +1755,9 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label84;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.Label label86;
+        private System.Windows.Forms.Label label85;
     }
 }

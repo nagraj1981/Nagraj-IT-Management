@@ -122,18 +122,52 @@ namespace IT_Asset_Management_Project
 
             }
             comboBox1.SelectedIndex = 0;
+            
             // Network Adapters
             searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapter");
             bool IsPhysical;
+            
             foreach (ManagementObject queryObj in searcher.Get())
             {
                 IsPhysical=bool.Parse(queryObj["PhysicalAdapter"].ToString());
-                if (IsPhysical)
+                
+                if (IsPhysical )
                 {
-                   listBox2.Items.Add(queryObj["Description"].ToString());
-                   }
+                    int NetConStat=int.Parse(queryObj["NetConnectionStatus"].ToString()) ;
+                    
+                    if (NetConStat== 7 | NetConStat==2)
+                   {
+                       if (int.Parse(queryObj["NetConnectionStatus"].ToString()).Equals(2))
+                       {
+                          label84.Text = (queryObj["MACAddress"].ToString());
+                          label83.Text = queryObj["Description"].ToString();
+                       }
+                           listBox2.Items.Add(queryObj["Description"].ToString());
+                }
+                }
+            
                 
             }
+            // Establishing Currrent Adapter
+            searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapterConfiguration");
+            
+            foreach (ManagementObject queryObj in searcher.Get())
+            {
+            
+                 
+                if (bool.Parse(queryObj["IPEnabled"].ToString())==true)
+                // int.Parse(queryObj["IPConnectionMetric"].ToString())>1 ) // 
+                {
+                   
+                            label85.Text = (queryObj["MACAddress"].ToString());
+                            label86.Text = queryObj["Description"].ToString();
+                }
+                   
+            }
+
+
+            
+
             // CDROM Drives
             searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_CDROMDrive");
             
@@ -283,7 +317,6 @@ namespace IT_Asset_Management_Project
         {
 
         }
-
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -350,6 +383,16 @@ namespace IT_Asset_Management_Project
         private void button2_Click(object sender, EventArgs e)
         {
             CurrentConfig();
+        }
+
+        private void label86_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label85_Click(object sender, EventArgs e)
+        {
+
         }
 
                 

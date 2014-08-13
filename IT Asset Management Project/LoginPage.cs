@@ -44,7 +44,15 @@ namespace IT_Asset_Management_Project
 
         private void LoginPage_Load(object sender, EventArgs e)
         {
-
+            CheckConnection();
+            if(IsConnectedITAssets== true && IsConnectedUser==true)
+            {
+                button1.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = false;
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -61,10 +69,70 @@ namespace IT_Asset_Management_Project
         {
 
         }
+        public bool IsConnectedUser
+        {
+            set;
+            get;
+
+
+
+        }
+        public bool IsConnectedITAssets
+        {
+            set;
+            get;
+
+        }
+
+        public void CheckConnection()
+        {
+            IsConnectedUser = false;
+            IsConnectedITAssets = false;
+            try
+            {
+                SqlConnection objcon = new SqlConnection("Server=Divya-PC;Database=UserDB;user id=sa;password=viperx");
+                objcon.Open();
+                // add check for Open Connection
+                if (objcon.State == ConnectionState.Open)
+                {
+                    label3.Text = "Connected";
+                    IsConnectedUser = true;
+                }
+                else
+                {
+                    label3.Text = "Not Connected";
+                }
+                objcon.Close();
+
+                objcon = new SqlConnection("Data Source=DIVYA-PC;Initial Catalog=db_ITAssets;Persist Security Info=True;User ID=sa;password=viperx");
+                objcon.Open();
+                if (objcon.State == ConnectionState.Open)
+                {
+                    label5.Text = "Connected";
+                    IsConnectedITAssets = true;
+                }
+                else
+                {
+                    label5.Text = "Not Connected";
+                
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+
+
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (txtUserID.Text.Length > 0 && txtPassword.Text.Length > 0)
+            
+
+            if (txtUserID.Text.Length > 0 && txtPassword.Text.Length > 0 )
             {
                 SqlConnection objcon = new SqlConnection("Server=Divya-PC;Database=UserDB;user id=sa;password=viperx");
                 SqlCommand objCmd = new SqlCommand("Select username,roleid from tblUser where username=@username and password=@password");

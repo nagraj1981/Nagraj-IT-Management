@@ -61,6 +61,12 @@
     <Compile Include="AddRemoveUserAdmin.Designer.cs">
       <DependentUpon>AddRemoveUserAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="CheckConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConnection.Designer.cs">
+      <DependentUpon>CheckConnection.cs</DependentUpon>
+    </Compile>
     <Compile Include="db_ITAssetsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -114,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConnection.resx">
+      <DependentUpon>CheckConnection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewMAchineData.resx">
       <DependentUpon>NewMAchineData.cs</DependentUpon>
