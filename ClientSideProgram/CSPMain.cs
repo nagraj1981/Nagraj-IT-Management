@@ -17,21 +17,16 @@ namespace ClientSideProgram
 {
     public partial class CSPMain : Form
     {
+        
         public bool IsConnectedUser
         {
             set;
             get;
-
-
-
         }
         public bool IsDomain
         {
             set;
             get;
-
-
-
         }
         
          public int timecount
@@ -48,7 +43,7 @@ namespace ClientSideProgram
          {
              set;
              get;
-                     }
+         }
         public bool IsConnectedITAssets
         {
             set;
@@ -87,7 +82,7 @@ namespace ClientSideProgram
                 {
                     label4.Text = "Not Connected";
                 }
-
+                objcon.Close();
  
             }
             catch (Exception ex)
@@ -95,29 +90,36 @@ namespace ClientSideProgram
                 MessageBox.Show(ex.Message);
 
             }
-
+            finally
+            {
+                
+            }
+            
         }
-    
         
+    
         public CSPMain()
-
         {
-            InitializeComponent();
             timecount = 0;
             MinutesTimer = 29;
             SecondsTimer = 0;
-       
-            label7.Text = "29";
-           
+            label7.Text ="29";
             Seconds.Start();
-            
             sendtonotify();
             CheckConnection();
+            ConnectionBallon();
+            if (IsConnectedITAssets == true && IsConnectedUser == true)
+            {
+                RefreshData();
+                        }
+        }
+        public void ConnectionBallon()
+        {
             if (IsConnectedITAssets == true && IsConnectedUser == true)
             {
                 notifyIcon1.BalloonTipText = "Connection Established - Ready To Upload Data";
                 notifyIcon1.ShowBalloonTip(6000);
-                RefreshData();
+              
             }
             else
             {
@@ -153,6 +155,7 @@ namespace ClientSideProgram
             this.Focus();
         }
 
+         
         private void button1_Click(object sender, EventArgs e)
         {
             notifyIcon1.BalloonTipText = "IT Asset Managemnt App Minimized To Tray";
@@ -160,25 +163,31 @@ namespace ClientSideProgram
             notifyIcon1.Visible = true;
             this.Hide();
         }
+        public string MACAddress
+        {
+            set;
+            get;
+        }
         //Refresh Data Class
         public void RefreshData()
         {
-            string MACAddresss;
 
 
-            SqlConnection objcon = new SqlConnection("Server=Divya-PC;Database=ITAssets;user id=sa;password=viperx");
+            SqlConnection objcon = new SqlConnection("Data Source=DIVYA-PC;Initial Catalog=db_ITAssets;Persist Security Info=True;User ID=sa;password=viperx");
             SqlCommand objCmd = new SqlCommand("Select Machine_ID,MACAddress from Current_Config_Data where MACAddress=@MACAddres");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapterConfiguration");
 
             foreach (ManagementObject queryObj in searcher.Get())
                 if (bool.Parse(queryObj["IPEnabled"].ToString()) == true)
                 {
-                    string MACAddresss = (queryObj["MACAddress"].ToString());
-                    objCmd.Parameters.Add("@MACAddres", SqlDbType.VarChar, 50).Value = MACAddresss;
+                    MACAddress = (queryObj["MACAddress"].ToString());
+                    objCmd.Parameters.Add("@MACAddres", SqlDbType.VarChar, 50).Value = (queryObj["MACAddress"].ToString());
                 }
                     objCmd.CommandType = CommandType.Text;
             objCmd.Connection = objcon;
             SqlDataReader objReader;
+            CheckConnection();
+            ConnectionBallon();
             try
             {
                 objcon.Open();
@@ -187,7 +196,7 @@ namespace ClientSideProgram
 
                 if (objReader.Read())
                 {
-                    if (objReader[1].ToString()==MACAddresss)
+                    if (objReader[1].ToString()==MACAddress)
                     {
                         C_Machine_ID = objReader[0].ToString();
                         WriteCurrentConfig(C_Machine_ID);
@@ -196,8 +205,11 @@ namespace ClientSideProgram
                 }
                 else
                 {
-                    MessageBox.Show("Machine ID Does Not Exist ..");
-                    WriteNewConfig(MACAddresss);
+                    MessageBox.Show("Machine ID Does Not Exist .. Contact Administrator");
+                    // WriteNewConfig(MACAddress);
+                    Add_New_Machine FormAddNew = new Add_New_Machine();
+                    FormAddNew.Show();
+
                 }
 
                 objReader.Close();
@@ -206,6 +218,7 @@ namespace ClientSideProgram
 
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
 
             }
             finally
@@ -217,51 +230,34 @@ namespace ClientSideProgram
 
         }
         
-        public void WriteNewConfig(string MAC)
+    public void WriteCurrentConfig(string MachinID)
         {
-
-            SqlConnection objcon = new SqlConnection("Server=Divya-PC;Database=ITAssets;user id=sa;password=viperx");
+            SqlConnection objcon = new SqlConnection("Data Source=DIVYA-PC;Initial Catalog=db_ITAssets;Persist Security Info=True;User ID=sa;password=viperx");
             SqlCommand objCmd = new SqlCommand();
-            objCmd.CommandText = "Insert into Current_Config_Data values(@ComputerName,@Model,@Bios,@PhyRAM,@Domain,@Workgroup,@Processor,@Core,@Logical_Cores,@MaxSpeed,@OSSerial,@OSName,@OSVer,@OSInstallDate,@OSActivationStatus,@MACAddress)";
-            
-            string MACAddress;
-
-            string Name;
-            string Manufacturer;
-            string Model;
-            string TotalPhysicalMemory;
-            string Domain;
-            string Workgroup;
-
-            string OsName;
-            string SerialNo;
-            string Version;
-            string InstallDate;
-            string Processor_Name;
-            string No_Of_Cores;
-            string No_Of_Logical_Cores;
-            string Processor_Spd;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapterConfiguration");
+            objCmd.CommandText = "UPDATE Current_Config_Data SET Computer_Name=@ComputerName,Model=@Model,Bios_Version=@Bios,Physical_RAM=@PhyRAM,Domain=@Domain,Workgroup=@Workgroup,Processor=@Processor,Core=@Core,Logical_Cores=@Logical_Cores,Max_Speed=@MaxSpeed,OS_Serial_No=@OSSerial,OS_Name=@OSName,OS_Version=@OSVer,OS_Install_Date=@OSInstallDate,OS_Activation_Status=@OSActivationStatus,MACAddress=@MACAddress,Last_Refresh=@lastrefresh Where Machine_ID=@MAC";
+            objCmd.Parameters.Add("@MAC", SqlDbType.VarChar, 50).Value = MachinID;
+            objCmd.Parameters.Add("@lastrefresh", SqlDbType.DateTime).Value = DateTime.Now;  
+        ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapterConfiguration");
 
             foreach (ManagementObject queryObj in searcher.Get())
                 if (bool.Parse(queryObj["IPEnabled"].ToString()) == true)
                 // int.Parse(queryObj["IPConnectionMetric"].ToString())>1 ) // 
                 {
 
-                    MACAddress = (queryObj["MACAddress"].ToString());
+                    objCmd.Parameters.Add("@MACAddress", SqlDbType.VarChar, 50).Value = (queryObj["MACAddress"].ToString());
                 }
 
 
             // Processor Info
             searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor");
-            
+
             foreach (ManagementObject queryObj in searcher.Get())
             {
-                Processor_Name = queryObj["Name"].ToString();
-                No_Of_Cores = queryObj["NumberOfCores"].ToString();
-                No_Of_Logical_Cores = queryObj["NumberOfLogicalProcessors"].ToString();
-                Processor_Spd = (double.Parse(queryObj["MaxClockSpeed"].ToString()) / 1000).ToString() + " GHz";
 
+                objCmd.Parameters.Add("@Processor", SqlDbType.VarChar, 50).Value = queryObj["Name"].ToString();
+                objCmd.Parameters.Add("@Core", SqlDbType.Int).Value = int.Parse(queryObj["NumberOfCores"].ToString());
+                objCmd.Parameters.Add("@Logical_Cores", SqlDbType.Int).Value = int.Parse(queryObj["NumberOfLogicalProcessors"].ToString());
+                objCmd.Parameters.Add("@MaxSpeed", SqlDbType.VarChar, 50).Value = (double.Parse(queryObj["MaxClockSpeed"].ToString()) / 1000).ToString() + " GHz";
 
             }
             // Account Info
@@ -283,37 +279,41 @@ namespace ClientSideProgram
             Scope.Connect();
             ObjectQuery Query = new ObjectQuery("SELECT * FROM SoftwareLicensingProduct Where PartialProductKey <> null AND LicenseIsAddon=False");
             ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Scope, Query);
-            string OS_status;
+
 
             foreach (ManagementObject WmiObject in Searcher.Get())
             {
                 if (WmiObject["LicenseStatus"].ToString() == "1")
-                    OS_status = "Activated";
+                    objCmd.Parameters.Add("@OSActivationStatus", SqlDbType.VarChar, 50).Value = "Activated";
                 else
-                    OS_status = "Not Activated";
+                    objCmd.Parameters.Add("@OSActivationStatus", SqlDbType.VarChar, 50).Value = "Not Activated";
             }
 
 
             // ComputerSystem
             searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_ComputerSystem");
-      
+
             foreach (ManagementObject queryObj in searcher.Get())
             {
-                Name = queryObj["Name"].ToString();
-                Manufacturer = queryObj["Manufacturer"].ToString();
-                Model = queryObj["Model"].ToString();
-                TotalPhysicalMemory = queryObj["TotalPhysicalMemory"].ToString();
-                
+
+
+                objCmd.Parameters.Add("@ComputerName", SqlDbType.VarChar, 50).Value = queryObj["Name"].ToString();
+                objCmd.Parameters.Add("@Model", SqlDbType.VarChar, 50).Value = queryObj["Model"].ToString();
+                objCmd.Parameters.Add("@Bios", SqlDbType.VarChar, 50).Value = "sdfsf";
+                objCmd.Parameters.Add("@PhyRAM", SqlDbType.VarChar, 50).Value = queryObj["TotalPhysicalMemory"].ToString();
+
                 IsDomain = bool.Parse(queryObj["PartOfDomain"].ToString());
                 if (!IsDomain)
                 {
-                    Domain = "Not Part Of Domain";
-                    Workgroup = queryObj["Workgroup"].ToString();
+                    objCmd.Parameters.Add("@Domain", SqlDbType.VarChar, 50).Value = "Not Part Of Domain";
+                    objCmd.Parameters.Add("@Workgroup", SqlDbType.VarChar, 50).Value = queryObj["Workgroup"].ToString();
+
                 }
                 else
                 {
-                    Domain = queryObj["Domain"].ToString();
-                    Workgroup = "Not Part Of Workgroup";
+                    objCmd.Parameters.Add("@Domain", SqlDbType.VarChar, 50).Value = queryObj["Domain"].ToString();
+                    objCmd.Parameters.Add("@Workgroup", SqlDbType.VarChar, 50).Value = "Not Part Of Workgroup";
+
                 }
             }
 
@@ -323,173 +323,15 @@ namespace ClientSideProgram
 
             foreach (ManagementObject queryObj in searcher.Get())
             {
-                OsName = queryObj["Caption"].ToString();
-                SerialNo = queryObj["SerialNumber"].ToString();
-                Version = queryObj["Version"].ToString();
-                InstallDate = queryObj["InstallDate"].ToString();
+
+                objCmd.Parameters.Add("@OSSerial", SqlDbType.VarChar, 50).Value = queryObj["SerialNumber"].ToString();
+                objCmd.Parameters.Add("@OSName", SqlDbType.VarChar, 50).Value = queryObj["Caption"].ToString();
+                objCmd.Parameters.Add("@OSVer", SqlDbType.VarChar, 50).Value = queryObj["Version"].ToString();
+                objCmd.Parameters.Add("@OSInstallDate", SqlDbType.VarChar, 50).Value = queryObj["InstallDate"].ToString();
 
             }
-
-            objCmd.Parameters.Add("@MACAddress", SqlDbType.VarChar, 50).Value = MACAddress;
-            objCmd.Parameters.Add("@ComputerName", SqlDbType.VarChar, 50).Value = Name;
-            objCmd.Parameters.Add("@Model", SqlDbType.VarChar, 50).Value = Model;
-            objCmd.Parameters.Add("@Bios", SqlDbType.VarChar, 50).Value = "sdfsf";
-            objCmd.Parameters.Add("@MPhyRAM", SqlDbType.VarChar, 50).Value = TotalPhysicalMemory;
-            objCmd.Parameters.Add("@Domain", SqlDbType.VarChar, 50).Value = Domain;
-            objCmd.Parameters.Add("@Workgroup", SqlDbType.VarChar, 50).Value = Workgroup;
-            objCmd.Parameters.Add("@Processor", SqlDbType.VarChar, 50).Value = Processor_Name;
-            objCmd.Parameters.Add("@Core", SqlDbType.Int).Value = int.Parse(No_Of_Cores);
-            objCmd.Parameters.Add("@Logical_Cores", SqlDbType.Int).Value = int.Parse(No_Of_Logical_Cores);
-            objCmd.Parameters.Add("@MaxSpeed", SqlDbType.VarChar, 50).Value = Processor_Spd;
-            objCmd.Parameters.Add("@OSSerial", SqlDbType.VarChar, 50).Value = SerialNo;
-            objCmd.Parameters.Add("@OSName", SqlDbType.VarChar, 50).Value = OsName;
-            objCmd.Parameters.Add("@OSVer", SqlDbType.VarChar, 50).Value = Version;
-            objCmd.Parameters.Add("@OSInstallDate", SqlDbType.VarChar, 50).Value = InstallDate;
-            objCmd.Parameters.Add("@OSActivationStatus", SqlDbType.VarChar, 50).Value = OS_status;
-
-            objCmd.Connection = objcon;
-            objCmd.CommandType = CommandType.Text;
-
-            try
-            {
-                objcon.Open();
-                // add check for Open Connection
-
-                MessageBox.Show(objcon.State.ToString());
-                objCmd.ExecuteNonQuery();
-
-                objCmd.Dispose();
-                objcon.Close();
-                MessageBox.Show("Created Successfully");
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                if (objcon.State == ConnectionState.Open)
-                    objcon.Close();
-
-            }
-        }
-    public void WriteCurrentConfig(string MAC)
-        {
-            string Processor_Name;
-            string No_Of_Cores ;
-            string No_Of_Logical_Cores ;
-            string Processor_Spd ;
-    
-        // Processor Info
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Processor");
-            foreach (ManagementObject queryObj in searcher.Get())
-            {
-                Processor_Name = queryObj["Name"].ToString();
-                No_Of_Cores = queryObj["NumberOfCores"].ToString();
-                No_Of_Logical_Cores = queryObj["NumberOfLogicalProcessors"].ToString();
-                Processor_Spd= (double.Parse(queryObj["MaxClockSpeed"].ToString()) / 1000).ToString() + " GHz";
-
-
-            }
-            // Account Info
-        /*   
-        searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_UserAccount");
-            foreach (ManagementObject queryObj in searcher.Get())
-            {
-                listBox4.Items.Add(queryObj["Name"].ToString());
-                listBox5.Items.Add(queryObj["Status"].ToString());
-                listBox6.Items.Add(queryObj["PasswordRequired"].ToString());
-
-            }*/
-
-            // GenuineStatus
-            string ComputerName = "localhost";
-            ManagementScope Scope;
-            Scope = new ManagementScope(String.Format("\\\\{0}\\root\\CIMV2", ComputerName), null);
-
-            Scope.Connect();
-            ObjectQuery Query = new ObjectQuery("SELECT * FROM SoftwareLicensingProduct Where PartialProductKey <> null AND LicenseIsAddon=False");
-            ManagementObjectSearcher Searcher = new ManagementObjectSearcher(Scope, Query);
-            string OS_status;
-
-            foreach (ManagementObject WmiObject in Searcher.Get())
-            {
-                if (WmiObject["LicenseStatus"].ToString() == "1")
-                    OS_status = "Activated";
-                else
-                    OS_status= "Not Activated";
-            }
-
-
-            // ComputerSystem
-            string OsName;
-            string SerialNo;
-            string Version;
-            string InstallDate;
-    
-        string Name ;
-                string Manufacturer ;
-                string Model ;
-                string TotalPhysicalMemory ;
-            string Domain ;
-                    string Workgroup ;
-                
-        searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_ComputerSystem");
-     
-            foreach (ManagementObject queryObj in searcher.Get())
-            {
-                Name = queryObj["Name"].ToString();
-                Manufacturer = queryObj["Manufacturer"].ToString();
-                Model = queryObj["Model"].ToString();
-                TotalPhysicalMemory = queryObj["TotalPhysicalMemory"].ToString();
-
-                IsDomain = bool.Parse(queryObj["PartOfDomain"].ToString());
-                
-                if (!IsDomain)
-                {
-                    Domain = "Not Part Of Domain";
-                    Workgroup = queryObj["Workgroup"].ToString();
-                }
-                else
-                {
-                    Domain= queryObj["Domain"].ToString();
-                    Workgroup = "Not Part Of Workgroup";
-                }
-            }
-
-            // Operating System
-            searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem");
-
-             
-        foreach (ManagementObject queryObj in searcher.Get())
-            {
-                OsName= queryObj["Caption"].ToString();
-                SerialNo = queryObj["SerialNumber"].ToString();
-                Version = queryObj["Version"].ToString();
-                InstallDate = queryObj["InstallDate"].ToString();
-
-            }
-        
-
-            SqlConnection objcon = new SqlConnection("Server=Divya-PC;Database=ITAssets;user id=sa;password=viperx");
-            SqlCommand objCmd = new SqlCommand();
-            objCmd.CommandText = "UPDATE Current_Config_Data SET Computer_Name=@ComputerName,Model=@Model,Bios_Version=@Bios,Physical_RAM=@PhyRAM,Domain=@Domain,Workgroup=@Workgroup,Processor=@Processor,Core=@Core,Logical_Cores=@Logical_Cores,Max_Speed=@MaxSpeed,OS_Serial_No=@OSSerial,OS_Name=@OSName,OS_Version=@OSVer,OS_Install_Date=@OSInstallDate,OS_Activation_Status=@OSActivationStatus,MACAddress=@MACAddress Where Machine_ID=MAC";
-            objCmd.Parameters.Add("@MACAddress", SqlDbType.VarChar, 50).Value = MAC;
-            objCmd.Parameters.Add("@ComputerName", SqlDbType.VarChar, 50).Value = Name;
-            objCmd.Parameters.Add("@Model", SqlDbType.VarChar, 50).Value = Model;
-            objCmd.Parameters.Add("@Bios", SqlDbType.VarChar, 50).Value = "TEST";
-            objCmd.Parameters.Add("@MPhyRAM", SqlDbType.VarChar, 50).Value = TotalPhysicalMemory;
-            objCmd.Parameters.Add("@Domain", SqlDbType.VarChar, 50).Value = Domain;
-            objCmd.Parameters.Add("@Workgroup", SqlDbType.VarChar, 50).Value = Workgroup;
-            objCmd.Parameters.Add("@Processor", SqlDbType.VarChar, 50).Value = Processor_Name;
-            objCmd.Parameters.Add("@Core", SqlDbType.Int).Value = int.Parse(No_Of_Cores);
-            objCmd.Parameters.Add("@Logical_Cores", SqlDbType.Int).Value = int.Parse(No_Of_Logical_Cores);
-            objCmd.Parameters.Add("@MaxSpeed", SqlDbType.VarChar, 50).Value = Processor_Spd;
-            objCmd.Parameters.Add("@OSSerial", SqlDbType.VarChar, 50).Value = SerialNo;
-            objCmd.Parameters.Add("@OSName", SqlDbType.VarChar, 50).Value = OsName.ToString();
-            objCmd.Parameters.Add("@OSVer", SqlDbType.VarChar, 50).Value = Version;
-            objCmd.Parameters.Add("@OSInstallDate", SqlDbType.VarChar, 50).Value =InstallDate;
-            objCmd.Parameters.Add("@OSActivationStatus", SqlDbType.VarChar, 50).Value = OS_status;
+         
+          
             
             objCmd.Connection = objcon;
             objCmd.CommandType = CommandType.Text;
@@ -508,6 +350,7 @@ namespace ClientSideProgram
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
 
             }
             finally
@@ -609,7 +452,19 @@ namespace ClientSideProgram
 
         }
 
-    }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+            notifyIcon1.BalloonTipText = "Refreshed Data";
+            notifyIcon1.ShowBalloonTip(20000);
+        }
 
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+    }
+    
 
 }

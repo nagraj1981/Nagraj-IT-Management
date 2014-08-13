@@ -7088,7 +7088,7 @@
 </value>
   </data>
   <metadata name="Seconds.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>374, 17</value>
+    <value>153, 23</value>
   </metadata>
   <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -13162,4 +13162,7 @@
         KKKACiiigAooooAKKKKACiiigAooorWh/Ej6oip8D9D9YoP9Qn+6KKIP9Qn+6KK/07o/w4+iP4/luf/Z
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>84</value>
+  </metadata>
 </root>

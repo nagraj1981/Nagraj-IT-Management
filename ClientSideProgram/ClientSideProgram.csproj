@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add_New_Machine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Add_New_Machine.Designer.cs">
+      <DependentUpon>Add_New_Machine.cs</DependentUpon>
+    </Compile>
     <Compile Include="CSPMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,8 +63,21 @@
     <Compile Include="CSPFaultDialog.Designer.cs">
       <DependentUpon>CSPFaultDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="db_ITAssetsDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_ITAssetsDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="db_ITAssetsDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>db_ITAssetsDataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Add_New_Machine.resx">
+      <DependentUpon>Add_New_Machine.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CSPFaultDialog.resx">
       <DependentUpon>CSPFaultDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -75,6 +94,28 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="db_ITAssetsDataSet.xsc">
+      <DependentUpon>db_ITAssetsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="db_ITAssetsDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>db_ITAssetsDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="db_ITAssetsDataSet.xss">
+      <DependentUpon>db_ITAssetsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="db_ITAssetsDataSet1.xsc">
+      <DependentUpon>db_ITAssetsDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="db_ITAssetsDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>db_ITAssetsDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="db_ITAssetsDataSet1.xss">
+      <DependentUpon>db_ITAssetsDataSet1.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
