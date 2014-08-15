@@ -11,6 +11,9 @@ namespace ClientSideProgram
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        public static string strPwdFilePath = Environment.GetEnvironmentVariable("SystemRoot");
+        public static bool isPwdEnabled = false;
+
         [STAThread]
         static void Main()
         {

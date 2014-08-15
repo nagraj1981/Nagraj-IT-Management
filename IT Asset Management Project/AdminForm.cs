@@ -349,6 +349,7 @@ namespace IT_Asset_Management_Project
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
 
             }
             finally
